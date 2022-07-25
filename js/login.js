@@ -72,12 +72,14 @@ function register() {
 
 btnSubmitLogin.addEventListener("click", (e) => {
   e.preventDefault();
-  loginUsuario();
+  //loginUsuario();
+  loginLS();
 });
 
 btnSubmitRegistar.addEventListener("click", (e) => {
   e.preventDefault();
-  registrarUsuario();
+  //registrarUsuario();
+  registroLS();
 });
 
 function registrarUsuario() {
@@ -122,7 +124,77 @@ function registrarUsuario() {
   objStore.add(nuevoUsuario);
 }
 
-function loginUsuario() {
+function registroLS() {
+  const txtNombreCompleto = document.querySelector(
+    '.formulario_register [placeholder="Nombre completo"]'
+  );
+  const txtCorreo = document.querySelector(
+    '.formulario_register [placeholder="Correo Electronico"]'
+  );
+  const txtUsuario = document.querySelector(
+    '.formulario_register [placeholder="Usuario"]'
+  );
+  const txtPassword = document.querySelector(
+    '.formulario_register [placeholder="Contraseña"]'
+  );
+
+  const nuevoUsuario = {
+    nombre: txtNombreCompleto.value,
+    correo: txtCorreo.value,
+    usuario: txtUsuario.value,
+    password: btoa(txtPassword.value),
+    admin: txtCorreo.value.match(/^admin[\s\S]+/gi),
+  };
+
+  localStorage.setItem("usuario", JSON.stringify(nuevoUsuario));
+}
+
+function loginLS() {
+  const txtCorreo = document.querySelector(
+    '.formulario_login [placeholder="Correo Electronico"]'
+  );
+  const txtPassword = document.querySelector(
+    '.formulario_login [placeholder="Contraseña"]'
+  );
+
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+  if (!usuario) {
+    alert("No hay usuario registrado");
+    return;
+  }
+
+  if (
+    txtCorreo.value === usuario.correo &&
+    txtPassword.value === atob(usuario.password)
+  ) {
+    const fecha = new Date();
+    const log = {
+      nombre: usuario.nombre,
+      correo: usuario.correo,
+      fecha: fecha.toDateString(),
+      hora: fecha.toLocaleTimeString("es-AR"),
+    };
+
+    let logs = JSON.parse(localStorage.getItem("logs"));
+    if (!logs) {
+      logs = [];
+    }
+
+    logs.push(log);
+
+    localStorage.setItem("logs", JSON.stringify(logs));
+
+    if (usuario.admin) {
+      window.location.assign("/admin.html");
+    } else {
+      window.location.assign("/Index.html");
+    }
+  }
+}
+
+/*
+ function loginUsuarioDB() {
   const txtCorreo = document.querySelector(
     '.formulario_login [placeholder="Correo Electronico"]'
   );
@@ -133,7 +205,7 @@ function loginUsuario() {
 
 function crearUsuariosDB() {
   //crear ka base de datos de usuarios
-  const crearDBusuarios = window.indexedDB.open("usuarios", 1);
+  const crearDBusuarios = indexedDB.open("usuarios", 1);
   crearDBusuarios.onerror = function () {
     console.log("hubo un error al crear la DB de usuarios");
   };
@@ -155,3 +227,4 @@ function crearUsuariosDB() {
 }
 
 crearUsuariosDB();
+ */
