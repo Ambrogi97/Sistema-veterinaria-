@@ -138,7 +138,10 @@ function registroLS() {
     '.formulario_register [placeholder="Contraseña"]'
   );
 
+  const usuariosRegistrados = JSON.parse(localStorage.getItem('usuariosRegistrados')) ?? []
+
   const nuevoUsuario = {
+    id: usuariosRegistrados.length,
     nombre: txtNombreCompleto.value,
     correo: txtCorreo.value,
     usuario: txtUsuario.value,
@@ -146,6 +149,9 @@ function registroLS() {
     admin: txtCorreo.value.match(/^admin[\s\S]+/gi),
   };
 
+  usuariosRegistrados.push(nuevoUsuario)
+
+  localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosRegistrados))
   localStorage.setItem("usuario", JSON.stringify(nuevoUsuario));
 }
 
@@ -186,9 +192,9 @@ function loginLS() {
     localStorage.setItem("logs", JSON.stringify(logs));
 
     if (usuario.admin) {
-      window.location.assign("/admin.html");
+      window.location.href = ("admin.html");
     } else {
-      window.location.assign("/Index.html");
+      window.location.href = ("index.html");
     }
   }
 }

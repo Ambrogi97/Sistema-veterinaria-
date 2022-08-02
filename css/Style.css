@@ -15,6 +15,7 @@ body {
 }
 
 main {
+  display: flex;
   width: 100%;
   padding: 20px;
   margin: auto;
@@ -130,28 +131,36 @@ main {
 
 .formulario_login {
   opacity: 1;
-  display: block;
   margin-top: -25px;
 }
+/* .btn_entrar {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+} */
 .formulario_register {
   display: none;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 760px) {
   main {
     margin-top: 50px;
   }
-
+  h2 {
+    width: 100%;
+  }
   .caja__trasera {
-    max-width: 350px;
-    height: 300px;
+    display: flex;
     flex-direction: column;
+    max-width: 350px;
     margin: auto;
   }
-
+  /* .btn_entrar {
+    display: flex;
+    margin-left: 25%;
+  } */
   .caja__trasera div {
     margin: 0px;
-    position: absolute;
   }
 
   /*Formularios*/
@@ -163,7 +172,8 @@ main {
   }
 
   .contenedor__login-register form {
-    position: relative;
+    display: flex;
+    flex-direction: column;
   }
 }
 
